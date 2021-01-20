@@ -1,3 +1,4 @@
+import { Driver } from 'src/app/models/driver.models';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
