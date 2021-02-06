@@ -1,5 +1,4 @@
 export class Driver {
-    firstName: string;
-    lastName: string;
+    driverName: string;
     enterprise: string;
 }
