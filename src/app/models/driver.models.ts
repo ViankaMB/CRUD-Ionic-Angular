@@ -1,4 +1,4 @@
 export class Driver {
-    driverName: string;
-    enterprise: string;
+    driverName: string = "";
+    enterprise: string = "";
 }

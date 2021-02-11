@@ -4,13 +4,16 @@ import { Driver } from 'src/app/models/driver.models';
 
 import { AlertController } from '@ionic/angular';
 
+import { ModalController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-driver-portfolio',
   templateUrl: './driver-portfolio.page.html',
   styleUrls: ['./driver-portfolio.page.scss'],
 })
-export class DriverPortfolioPage implements OnInit {
 
+export class DriverPortfolioPage implements OnInit {
   selectedDriver: Driver = new Driver();
 
   drivers: Driver[] = [
@@ -18,9 +21,18 @@ export class DriverPortfolioPage implements OnInit {
     { driverName: 'Luis Sanchez', enterprise: 'Transporte Lupita' },
   ];
 
-  constructor(public alertController: AlertController) { }
+  constructor(public alertController: AlertController, public modalController: ModalController) { }
 
   ngOnInit() {
+  }
+
+
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: DriverPortfolioPage
+    });
+    return await modal.present();
   }
 
   // AGREGAR UN NUEVO CONDUCTOR
@@ -50,12 +62,10 @@ export class DriverPortfolioPage implements OnInit {
         }, {
           text: 'Submit',
           handler: (alertData) => {
-            if (this.selectedDriver.driverName === '' && this.selectedDriver.enterprise === '') {
-              this.selectedDriver.driverName = alertData.userName;
-              this.selectedDriver.enterprise = alertData.enterprise;
-              this.drivers.push(this.selectedDriver);
-              this.verValor();
-            }
+            this.selectedDriver.driverName = alertData.userName;
+            this.selectedDriver.enterprise = alertData.enterprise;
+            this.drivers.push(this.selectedDriver);
+            this.verValor();
           }
         }
       ]
@@ -68,7 +78,7 @@ export class DriverPortfolioPage implements OnInit {
   }
 
   //ELIMINAR UN CONDUCTOR
-  async delete(driver: Driver, conductor) {
+  async delete(driver: Driver) {
     let msg = `¿Quieres eliminar el conductor ${driver.driverName} de la empresa ${driver.enterprise}?`
     const alert = await this.alertController.create({
       header: "Aviso",
@@ -99,8 +109,20 @@ export class DriverPortfolioPage implements OnInit {
   async update(driver: Driver) {
     let msg = `¿Quieres actualizar el conductor ${driver.driverName} de la empresa ${driver.enterprise}?`
     const alert = await this.alertController.create({
-      header: "Aviso",
+      header: "Actualizar datos",
       message: msg,
+      // inputs: [
+      //   {
+      //     name: 'userName',
+      //     type: 'text',
+      //     placeholder: 'Nombre Completo'
+      //   },
+      //   {
+      //     name: 'enterprise',
+      //     type: 'text',
+      //     placeholder: 'Nombre de Empresa'
+      //   }
+      // ],
       buttons: [
         {
           text: 'Cancel',
